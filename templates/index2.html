@@ -1,0 +1,79 @@
+<!Doctype html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+
+    <title>kakao_sentiment</title>
+
+    <!-- style -->
+    <style type="text/css">
+        * {
+            font-family: "Stylish", sans-serif;
+        }
+
+        .comment {
+            color: blue;
+            font-weight: bold;
+        }
+
+        #word-box {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(3,1fr);
+        }
+    </style>
+    <script>
+    </script>
+
+</head>
+
+<body>
+{%  for talker in talkers %}
+    <a href="/export?word={{ talker }}">Save {{ talker }}'s Word Cloud</a>
+{% endfor %}
+<div class="center">
+    <div  id="word-box">
+        {% for wc in wcs %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Word</th>
+                    <th scope="col">Count</th>
+                </tr>
+                </thead>
+                <tbody id="word-table">
+                {% for w in wc %}
+                    <tr>
+                        <th scope="row">{{ w[0] }}</th>
+                        <td>{{ w[1][0] }}</td>
+                        <td>{{ w[1][1] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+
+</div>
+</body>
+
+</html>

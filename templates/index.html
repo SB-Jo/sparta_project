@@ -1,0 +1,131 @@
+<!Doctype html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!-- 구글폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+
+
+    <title>kakao_sentiment</title>
+
+    <!-- style -->
+    <style type="text/css">
+        * {
+            font-family: "Stylish", sans-serif;
+        }
+
+        .comment {
+            color: blue;
+            font-weight: bold;
+        }
+
+        #post-box {
+            width: 500px;
+            margin: 20px auto;
+            padding: 50px;
+            border: black solid;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $("#cards-box").html("");
+            showWords();
+        });
+
+        function showWords() {
+            $.ajax({
+                type: "GET",
+                url: "/wordcloud",
+                data: {},
+                success: function (response) {
+                    let words = response["words"];
+                    for (let i = 0; i < words.length; i++) {
+                        makeCard(i+1, words[i][0], words[i][1]);
+                    }
+                }
+            })
+        }
+
+        function makeCard(rank, word, count) {
+            let tempHtml = `<tr>
+                                <th scope="row">"${rank}"</th>
+                                <td>"${word}"</td>
+                                <td>"${count}"</td>
+                            </tr>;`
+            $("#word-table").append(tempHtml);
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div class="center">
+        <div class="jumbotron">
+            <h1 class="display-4">KAKAO WORD CLOUD</h1>
+            <p class="lead">카카오톡 워드 클라우드</p>
+            <hr class="my-4">
+            <form action="/fileupload" class="md-form" method="POST" enctype="multipart/form-data">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="inputGroupFile01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
+        </div>
+        <a href="/wordcloud">Show Wordcloud</a>
+        <div id="word-table">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Word</th>
+                    <th scope="col">Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>40</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>20</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
